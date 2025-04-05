@@ -147,9 +147,3 @@ function checarVitoria(mao, nome) {
     }, 300);
   }
 }
-
-document.getElementById('turno-indicador').innerText = 'Turno do Bot...';
-setTimeout(() => {
-  // bot joga aqui
-  document.getElementById('turno-indicador').innerText = 'Sua vez!';
-}, 1000);
