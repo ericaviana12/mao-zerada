@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mão Zerada</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="turn-indicator" class="turn-indicator">Sua vez!</div>
-  <div id="game-container">
-    <div id="bot-hand" class="hand"></div>
-    <div id="deck-area">
-      <div id="deck" class="card-back"></div>
-      <div id="discard-pile"></div>
+  <h1>Mão Zerada</h1>
+  <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
+
+  <p id="turno-indicador">Seu turno</p>
+
+  <div id="mesa">
+    <div id="pilhas">
+      <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
+      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">
+        <div id="carta-descarte"></div>
+        <span>Descarte</span>
+      </div>
     </div>
-    <div id="player-hand" class="hand"></div>
-    <button id="new-game">Nova Rodada</button>
+
+    <div id="mao-jogador" class="mao">
+      <h2>Sua Mão</h2>
+      <div id="cartas-jogador" class="cartas"></div>
+      <p id="soma-jogador">Soma: 0</p>
+    </div>
+
+    <div id="mao-bot" class="mao">
+      <h2>Mão do Bot</h2>
+      <div id="cartas-bot" class="cartas"></div>
+      <p id="soma-bot">Soma: ?</p>
+    </div>
   </div>
 
-  <script src="app.js"></script>
+  <p>Você deve comprar uma carta (do monte ou descarte) e depois descartar uma da mão.</p>
+  <button onclick="novaRodada()">Nova Partida</button>
+  <script src="script.js"></script>
 </body>
 </html>
