@@ -1,95 +1,41 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0e0e0e;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mão Zerada</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Mão Zerada</h1>
+  <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
 
-h1 {
-  font-size: 2.5em;
-}
+  <p id="turno-indicador">Seu turno</p>
 
-.slogan {
-  font-style: italic;
-  margin-bottom: 20px;
-}
+  <div id="mesa">
+    <div id="pilhas">
+      <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
+      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">
+        <div id="carta-descarte"></div>
+        <span>Descarte</span>
+      </div>
+    </div>
 
-#turno-indicador {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  color: #ffd700;
-}
+    <div id="mao-jogador" class="mao">
+      <h2>Sua Mão</h2>
+      <div id="cartas-jogador" class="cartas"></div>
+      <p id="soma-jogador">Soma: 0</p>
+    </div>
 
-#mesa {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
+    <div id="mao-bot" class="mao">
+      <h2>Mão do Bot</h2>
+      <div id="cartas-bot" class="cartas"></div>
+      <p id="soma-bot">Soma: ?</p>
+    </div>
+  </div>
 
-#pilhas {
-  display: flex;
-  gap: 40px;
-  margin: 20px 0;
-}
-
-.pilha {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 110px;
-  background: #333;
-  border-radius: 8px;
-  border: 2px solid #999;
-  position: relative;
-  cursor: pointer;
-}
-
-#carta-descarte {
-  width: 60px;
-  height: 90px;
-  margin-bottom: 5px;
-}
-
-.mao {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-}
-
-.cartas {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-.carta {
-  width: 60px;
-  height: 90px;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #333;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.carta:hover {
-  transform: scale(1.1);
-}
-
-.vermelha {
-  color: red;
-}
+  <p>Você deve comprar uma carta (do monte ou descarte) e depois descartar uma da mão.</p>
+  <button onclick="novaRodada()">Nova Partida</button>
+  <script src="script.js"></script>
+</body>
+</html>
