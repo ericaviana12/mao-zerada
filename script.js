@@ -1,5 +1,9 @@
 const naipes = ['♥', '♦', '♣', '♠'];
 const valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+let monte = [];
+let descarte = [];
+let maoJogador = [];
+let cartaComprada = null;
 
 function gerarBaralho() {
   let baralho = [];
@@ -18,15 +22,19 @@ function valorNumerico(carta) {
   return vermelho ? -valor : valor;
 }
 
-function renderCartas(cartas, elementoId) {
-  const div = document.getElementById(elementoId);
+function renderCartas() {
+  const div = document.getElementById('cartas-jogador');
   div.innerHTML = '';
-  cartas.forEach(carta => {
+  maoJogador.forEach((carta, index) => {
     const card = document.createElement('div');
     card.className = 'carta ' + (carta.naipe === '♥' || carta.naipe === '♦' ? 'vermelha' : '');
     card.textContent = `${carta.valor}${carta.naipe}`;
+    card.onclick = () => descartar(index);
     div.appendChild(card);
   });
+
+  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
+  atualizarPilhas();
 }
 
 function somaCartas(cartas) {
@@ -35,14 +43,48 @@ function somaCartas(cartas) {
 
 function novaRodada() {
   const baralho = gerarBaralho();
-  const maoJogador = baralho.splice(0, 7);
-  const maoBot = baralho.splice(0, 7);
-
-  renderCartas(maoJogador, 'cartas-jogador');
-  renderCartas(maoBot, 'cartas-bot');
-
-  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
-  document.getElementById('soma-bot').textContent = `Soma: ${somaCartas(maoBot)}`;
+  maoJogador = baralho.splice(0, 7);
+  monte = baralho;
+  descarte = [monte.pop()];
+  cartaComprada = null;
+  renderCartas();
 }
 
-novaRodada();
+function atualizarPilhas() {
+  document.getElementById('monte').textContent = monte.length ? 'Monte' : 'Vazio';
+  const cartaTopo = descarte[descarte.length - 1];
+  document.getElementById('descarte').textContent = cartaTopo ? `${cartaTopo.valor}${cartaTopo.naipe}` : 'Descarte';
+}
+
+function comprarCarta(origem) {
+  if (cartaComprada) {
+    alert("Você já comprou! Precisa descartar.");
+    return;
+  }
+
+  if (origem === 'monte' && monte.length > 0) {
+    cartaComprada = monte.pop();
+  } else if (origem === 'descarte' && descarte.length > 0) {
+    cartaComprada = descarte.pop();
+  }
+
+  if (cartaComprada) {
+    maoJogador.push(cartaComprada);
+    renderCartas();
+  }
+}
+
+function descartar(indice) {
+  if (!cartaComprada) {
+    alert("Você precisa comprar uma carta antes de descartar!");
+    return;
+  }
+  const descartada = maoJogador.splice(indice, 1)[0];
+  descarte.push(descartada);
+  cartaComprada = null;
+  renderCartas();
+
+  if (somaCartas(maoJogador) === 0) {
+    alert("Parabéns! Você zerou a mão!");
+  }
+}
