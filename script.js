@@ -64,8 +64,16 @@ function renderCartas(mao, divId, clicavel, ocultar = false) {
 
 function atualizarPilhas() {
   document.getElementById('monte').textContent = monte.length ? 'Monte' : 'Vazio';
+
   const cartaTopo = descarte[descarte.length - 1];
-  document.getElementById('descarte').textContent = cartaTopo ? `${cartaTopo.valor}${cartaTopo.naipe}` : 'Descarte';
+  const el = document.getElementById('carta-descarte');
+  el.innerHTML = '';
+  if (cartaTopo) {
+    const cartaEl = document.createElement('div');
+    cartaEl.className = 'carta ' + (cartaTopo.naipe === '♥' || cartaTopo.naipe === '♦' ? 'vermelha' : '');
+    cartaEl.textContent = `${cartaTopo.valor}${cartaTopo.naipe}`;
+    el.appendChild(cartaEl);
+  }
 }
 
 function comprarCarta(origem) {
@@ -105,7 +113,6 @@ function descartar(indice) {
 function jogadaBot() {
   if (turno !== 'bot') return;
 
-  // Comprar
   let carta;
   if (Math.random() < 0.5 && descarte.length > 0) {
     carta = descarte.pop();
@@ -114,7 +121,6 @@ function jogadaBot() {
   }
   maoBot.push(carta);
 
-  // Escolher carta para descartar (a com menor valor absoluto)
   let idxDescartar = 0;
   let menorValor = Math.abs(valorNumerico(maoBot[0]));
   for (let i = 1; i < maoBot.length; i++) {
