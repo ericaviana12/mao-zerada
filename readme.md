@@ -46,23 +46,6 @@ As cartas pretas (♣ ♠) valem pontos **positivos**, e as vermelhas (♥ ♦) 
 
 ---
 
-## Animações e interatividade
-
-- Descarte com efeito visual
-- Transição entre turnos com destaque
-- Bot joga automaticamente em seu turno
-
----
-
-## Layout e compatibilidade
-
-- Compatível com dispositivos móveis e desktop
-- Layout responsivo:  
-  - **Portrait** na versão mobile  
-  - **Landscape** para tablets e PCs  
-
----
-
 ## Site do jogo
 
 Jogue agora mesmo:  
