@@ -1,109 +1,95 @@
-/* Reset e base */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0e0e0e;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
+h1 {
+  font-size: 2.5em;
+}
+
+.slogan {
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+#turno-indicador {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #ffd700;
+}
+
+#mesa {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  min-height: 100vh;
+  gap: 20px;
 }
 
-/* Título e botões */
-h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+#pilhas {
+  display: flex;
+  gap: 40px;
+  margin: 20px 0;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
+.pilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 110px;
+  background: #333;
+  border-radius: 8px;
+  border: 2px solid #999;
+  position: relative;
   cursor: pointer;
 }
 
-/* Indicadores e soma */
-#turn-indicator, #sum-display {
-  margin: 5px;
-  font-size: 1.1rem;
-  font-weight: bold;
+#carta-descarte {
+  width: 60px;
+  height: 90px;
+  margin-bottom: 5px;
 }
 
-/* Layout geral */
-#bot-hand, #discard-pile, #player-hand {
-  width: 100%;
-  max-width: 1000px;
+.mao {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+}
+
+.cartas {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 10px 0;
 }
 
-/* Última carta descartada */
-#discard-pile {
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Estilo das cartas */
-.card {
+.carta {
   width: 60px;
   height: 90px;
-  border-radius: 8px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
   background-color: white;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  color: black;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
-/* Responsividade para celular (portrait) */
-@media (max-width: 600px) {
-  body {
-    padding: 5px;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
-
-  .card {
-    width: 48px;
-    height: 72px;
-    font-size: 1rem;
-  }
-
-  #bot-hand, #discard-pile, #player-hand {
-    gap: 6px;
-  }
+.carta:hover {
+  transform: scale(1.1);
 }
 
-/* Responsividade para tablets e desktops (landscape) */
-@media (min-width: 768px) {
-  #bot-hand, #player-hand {
-    justify-content: center;
-  }
-
-  #discard-pile {
-    margin: 20px 0;
-  }
-
-  .card {
-    width: 70px;
-    height: 100px;
-    font-size: 1.3rem;
-  }
+.vermelha {
+  color: red;
 }
