@@ -1,41 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mão Zerada</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mão Zerada</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Mão Zerada</h1>
-  <div class="slogan">Zerar a mão é arte</div>
-  <div id="turno-indicador">Sua vez!</div>
 
-  <div id="mesa">
-    <div class="mao" id="mao-jogador">
-      <h2>Sua Mão</h2>
-      <div class="cartas" id="cartas-jogador"></div>
+    <h1>Mão Zerada</h1>
+    <p>Zerar a mão é arte</p>
+    <p id="status">Sua vez!</p>
+
+    <div class="mao-container">
+        <h2>Sua Mão</h2>
+        <div id="mao-jogador" class="mao"></div>
     </div>
 
-    <div id="pilhas">
-      <div class="pilha" id="pilha-comprar" onclick="comprarCarta()">
-        <strong>Comprar</strong>
-      </div>
-      <div class="pilha" id="pilha-descarte">
-        <div id="carta-descarte"></div>
-        <strong>Descarte</strong>
-      </div>
+    <div class="acoes">
+        <button onclick="comprarCarta()">Comprar</button>
+        <button onclick="descartarCarta()">Descartar</button>
     </div>
 
-    <div class="mao" id="mao-bot">
-      <h2>Mão do Bot</h2>
-      <div class="cartas" id="cartas-bot"></div>
+    <div class="mao-container">
+        <h2>Mão do Bot</h2>
+        <div id="mao-bot" class="mao"></div>
     </div>
-  </div>
 
-  <!-- Modal de Vitória -->
-  <div id="modal-vitoria"><h2 id="mensagem-vitoria">Você venceu!</h2></div>
+    <div id="modal-vitoria" class="modal">
+        <div class="modal-content">
+            <h2 id="mensagem-vitoria"></h2>
+            <button onclick="fecharModal()">OK</button>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
