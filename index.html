@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mão Zerada</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3f3f3f">
 </head>
 <body>
   <h1>Mão Zerada</h1>
@@ -37,5 +39,13 @@
   <p>Você deve comprar uma carta (do monte ou descarte) e depois descartar uma da mão.</p>
   <button onclick="novaRodada()">Nova Partida</button>
   <script src="script.js"></script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('Service Worker registrado!'))
+      .catch((error) => console.log('Erro ao registrar o Service Worker:', error));
+  }
+  </script>
 </body>
 </html>
