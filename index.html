@@ -9,13 +9,16 @@
 <body>
   <h1>Mão Zerada</h1>
   <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
-  
+
   <p id="turno-indicador">Seu turno</p>
 
   <div id="mesa">
     <div id="pilhas">
       <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
-      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">Descarte</div>
+      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">
+        <div id="carta-descarte"></div>
+        <span>Descarte</span>
+      </div>
     </div>
 
     <div id="mao-jogador" class="mao">
