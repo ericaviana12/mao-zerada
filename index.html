@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mão Zerada</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Mão Zerada</h1>
+  <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
+
+  <div id="mesa">
+    <div id="mao-jogador" class="mao">
+      <h2>Sua Mão</h2>
+      <div id="cartas-jogador" class="cartas"></div>
+      <p id="soma-jogador">Soma: 0</p>
+    </div>
+
+    <div id="mao-bot" class="mao">
+      <h2>Bot</h2>
+      <div id="cartas-bot" class="cartas"></div>
+      <p id="soma-bot">Soma: ?</p>
+    </div>
+  </div>
+
+  <button onclick="novaRodada()">Nova Rodada</button>
+  <script src="script.js"></script>
+</body>
+</html>
