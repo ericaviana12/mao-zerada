@@ -11,20 +11,20 @@
   <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
 
   <div id="mesa">
+    <div id="pilhas">
+      <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
+      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">Descarte</div>
+    </div>
+
     <div id="mao-jogador" class="mao">
       <h2>Sua Mão</h2>
       <div id="cartas-jogador" class="cartas"></div>
       <p id="soma-jogador">Soma: 0</p>
     </div>
-
-    <div id="mao-bot" class="mao">
-      <h2>Bot</h2>
-      <div id="cartas-bot" class="cartas"></div>
-      <p id="soma-bot">Soma: ?</p>
-    </div>
   </div>
 
-  <button onclick="novaRodada()">Nova Rodada</button>
+  <p>Escolha uma carta da mão para descartar após comprar.</p>
+  <button onclick="novaRodada()">Nova Partida</button>
   <script src="script.js"></script>
 </body>
 </html>
