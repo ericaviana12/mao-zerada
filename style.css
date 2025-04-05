@@ -12,7 +12,14 @@ h1 {
 
 .slogan {
   font-style: italic;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+#turno-indicador {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #ffd700;
 }
 
 #mesa {
