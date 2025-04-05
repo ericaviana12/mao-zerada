@@ -8,25 +8,33 @@
 </head>
 <body>
   <h1>Mão Zerada</h1>
-  <div id="turno-indicador"></div>
-  <div id="mesa">
-    <div id="mao-jogador" class="mao"></div>
-    <div id="controle-jogador">
-      <button onclick="comprarCarta()">Comprar</button>
-      <div id="carta-comprada"></div>
-    </div>
-    <div id="mao-bot" class="mao"></div>
-    <div id="descarte">
-      <h3>Descarte</h3>
-      <div id="pilha-descarte"></div>
-    </div>
-  </div>
-  <button onclick="novaRodada()">Nova Rodada</button>
+  <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
 
-  <div id="modal-vitoria" class="modal">
-    <div class="modal-conteudo">
-      <p id="mensagem-vitoria"></p>
-      <button onclick="fecharModal()">Fechar</button>
+  <div class="info">
+    <p>Sua mão: <span id="player-sum">0</span></p>
+    <p>Mão do Bot: <span id="bot-sum">?</span></p>
+  </div>
+
+  <div class="game-area">
+    <div class="hand" id="player-hand"></div>
+
+    <div class="middle-area">
+      <div class="draw-pile" id="draw-pile" title="Comprar uma carta">Comprar</div>
+      <div class="discard-pile" id="discard-pile" title="Última carta descartada"></div>
+    </div>
+
+    <div class="bot-area" id="bot-hand"></div>
+  </div>
+
+  <div id="message"></div>
+  <div class="actions">
+    <button onclick="startGame()">Nova Rodada</button>
+  </div>
+
+  <div id="victory-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="winner-text"></h2>
+      <button onclick="closeModal()">Fechar</button>
     </div>
   </div>
 
