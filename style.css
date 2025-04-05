@@ -1,95 +1,76 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0e0e0e;
-  color: #fff;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0a0a0a;
+  color: white;
   text-align: center;
-  padding: 20px;
 }
 
-h1 {
-  font-size: 2.5em;
-}
-
-.slogan {
-  font-style: italic;
-  margin-bottom: 20px;
-}
-
-#turno-indicador {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  color: #ffd700;
-}
-
-#mesa {
+#game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: space-evenly;
+  height: 100vh;
+  padding-top: 50px;
+  box-sizing: border-box;
 }
 
-#pilhas {
+.hand {
   display: flex;
-  gap: 40px;
-  margin: 20px 0;
-}
-
-.pilha {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 110px;
-  background: #333;
-  border-radius: 8px;
-  border: 2px solid #999;
-  position: relative;
-  cursor: pointer;
-}
-
-#carta-descarte {
-  width: 60px;
-  height: 90px;
-  margin-bottom: 5px;
-}
-
-.mao {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-}
-
-.cartas {
-  display: flex;
-  justify-content: center;
+  gap: 8px;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 10px 0;
+  justify-content: center;
 }
 
-.carta {
+.card, .card-back {
   width: 60px;
   height: 90px;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #333;
-  font-size: 20px;
+  border-radius: 6px;
+  background: white;
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: black;
+  align-items: center;
+  font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
+  color: black;
+  border: 2px solid #333;
 }
 
-.carta:hover {
-  transform: scale(1.1);
-}
-
-.vermelha {
+.card.red {
   color: red;
+}
+
+.card-back {
+  background: #222;
+  color: white;
+}
+
+#deck-area {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.turn-indicator {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 18px;
+  border-radius: 8px;
+  z-index: 9999;
 }
