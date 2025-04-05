@@ -36,16 +36,23 @@ h1 {
 }
 
 .pilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 80px;
   height: 110px;
   background: #333;
-  color: #fff;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
   border: 2px solid #999;
+  position: relative;
+  cursor: pointer;
+}
+
+#carta-descarte {
+  width: 60px;
+  height: 90px;
+  margin-bottom: 5px;
 }
 
 .mao {
