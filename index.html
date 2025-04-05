@@ -8,34 +8,34 @@
 </head>
 <body>
   <h1>Mão Zerada</h1>
-  <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
-
-  <p id="turno-indicador">Seu turno</p>
+  <div class="slogan">Zerar a mão é arte</div>
+  <div id="turno-indicador">Sua vez!</div>
 
   <div id="mesa">
+    <div class="mao" id="mao-jogador">
+      <h2>Sua Mão</h2>
+      <div class="cartas" id="cartas-jogador"></div>
+    </div>
+
     <div id="pilhas">
-      <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
-      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">
+      <div class="pilha" id="pilha-comprar" onclick="comprarCarta()">
+        <strong>Comprar</strong>
+      </div>
+      <div class="pilha" id="pilha-descarte">
         <div id="carta-descarte"></div>
-        <span>Descarte</span>
+        <strong>Descarte</strong>
       </div>
     </div>
 
-    <div id="mao-jogador" class="mao">
-      <h2>Sua Mão</h2>
-      <div id="cartas-jogador" class="cartas"></div>
-      <p id="soma-jogador">Soma: 0</p>
-    </div>
-
-    <div id="mao-bot" class="mao">
+    <div class="mao" id="mao-bot">
       <h2>Mão do Bot</h2>
-      <div id="cartas-bot" class="cartas"></div>
-      <p id="soma-bot">Soma: ?</p>
+      <div class="cartas" id="cartas-bot"></div>
     </div>
   </div>
 
-  <p>Você deve comprar uma carta (do monte ou descarte) e depois descartar uma da mão.</p>
-  <button onclick="novaRodada()">Nova Partida</button>
+  <!-- Modal de Vitória -->
+  <div id="modal-vitoria"><h2 id="mensagem-vitoria">Você venceu!</h2></div>
+
   <script src="script.js"></script>
 </body>
 </html>
