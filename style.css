@@ -1,192 +1,68 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0e0e0e;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #222;
+    color: white;
 }
 
 h1 {
-  font-size: 2.5em;
-  margin: 0.2em 0;
+    font-size: 2rem;
 }
 
-.slogan {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-#turno-indicador {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 15px;
-  color: #ffd700;
-}
-
-#mesa {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-#pilhas {
-  display: flex;
-  gap: 40px;
-  margin: 20px 0;
-}
-
-.pilha {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 110px;
-  background: #333;
-  border-radius: 8px;
-  border: 2px solid #999;
-  position: relative;
-  cursor: pointer;
-}
-
-#carta-descarte {
-  width: 60px;
-  height: 90px;
-  margin-bottom: 5px;
+.mao-container {
+    margin: 20px 0;
 }
 
 .mao {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
-  width: 95%;
-  max-width: 600px;
-}
-
-.cartas {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-.carta {
-  width: 60px;
-  height: 90px;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #333;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.carta:hover {
-  transform: scale(1.1);
-}
-
-.vermelha {
-  color: red;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 6px;
-  border: none;
-  background-color: #444;
-  color: white;
-}
-
-button:hover {
-  background-color: #666;
-}
-
-/* Animações e responsividade */
-.carta-nova {
-  animation: aparecer 0.5s ease-in-out;
-  box-shadow: 0 0 8px #00ffcc;
-}
-
-@keyframes aparecer {
-  from { opacity: 0; transform: scale(1.3); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-#modal-vitoria {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-#modal-vitoria h2 {
-  color: #fff;
-  background: #333;
-  padding: 30px;
-  border-radius: 10px;
-  animation: aparecer-modal 0.8s ease-out;
-}
-
-@keyframes aparecer-modal {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@media (max-width: 768px) and (orientation: portrait) {
-  #mesa {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .mao {
-    width: 100%;
-    font-size: 0.9em;
-  }
-
-  .carta {
-    width: 50px;
-    height: 75px;
-    font-size: 18px;
-  }
-
-  #pilhas {
-    gap: 20px;
-  }
-}
-
-@media (min-width: 769px) and (orientation: landscape), (min-width: 1024px) {
-  #mesa {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .mao {
-    width: 45%;
-  }
-
-  #pilhas {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    gap: 10px;
     justify-content: center;
-    gap: 20px;
-  }
+}
+
+.card {
+    width: 50px;
+    height: 70px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    line-height: 70px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+#status {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: yellow;
+    margin: 10px 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
 }
