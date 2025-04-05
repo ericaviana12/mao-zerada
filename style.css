@@ -4,23 +4,21 @@ body {
   color: #fff;
   text-align: center;
   padding: 20px;
-  margin: 0;
 }
 
 h1 {
   font-size: 2.5em;
-  margin: 0.2em 0;
 }
 
 .slogan {
   font-style: italic;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 #turno-indicador {
   font-weight: bold;
   font-size: 1.2em;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #ffd700;
 }
 
@@ -29,9 +27,6 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
 #pilhas {
@@ -64,7 +59,7 @@ h1 {
   background: #1a1a1a;
   padding: 20px;
   border-radius: 10px;
-  width: 95%;
+  width: 90%;
   max-width: 600px;
 }
 
@@ -97,73 +92,4 @@ h1 {
 
 .vermelha {
   color: red;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 6px;
-  border: none;
-  background-color: #444;
-  color: white;
-}
-
-button:hover {
-  background-color: #666;
-}
-
-/* Responsivo: Modo retrato (mobile) */
-@media (max-width: 768px) and (orientation: portrait) {
-  #mesa {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .mao {
-    width: 100%;
-    font-size: 0.9em;
-  }
-
-  .carta {
-    width: 50px;
-    height: 75px;
-    font-size: 18px;
-  }
-
-  #pilhas {
-    gap: 20px;
-  }
-}
-
-/* Responsivo: Modo paisagem (tablet e desktop) */
-@media (min-width: 769px) and (orientation: landscape), (min-width: 1024px) {
-  #mesa {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .mao {
-    width: 45%;
-  }
-
-  #pilhas {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
-}
-
-.carta-nova {
-  animation: aparecer 0.5s ease-in-out;
-  box-shadow: 0 0 8px #00ffcc;
-}
-
-@keyframes aparecer {
-  from { opacity: 0; transform: scale(1.3); }
-  to { opacity: 1; transform: scale(1); }
 }
