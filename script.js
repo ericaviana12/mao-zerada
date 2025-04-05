@@ -1,9 +1,8 @@
 const naipes = ['♥', '♦', '♣', '♠'];
 const valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-let monte = [];
-let descarte = [];
-let maoJogador = [];
+let monte = [], descarte = [], maoJogador = [], maoBot = [];
 let cartaComprada = null;
+let turno = 'jogador';
 
 function gerarBaralho() {
   let baralho = [];
@@ -22,32 +21,45 @@ function valorNumerico(carta) {
   return vermelho ? -valor : valor;
 }
 
-function renderCartas() {
-  const div = document.getElementById('cartas-jogador');
-  div.innerHTML = '';
-  maoJogador.forEach((carta, index) => {
-    const card = document.createElement('div');
-    card.className = 'carta ' + (carta.naipe === '♥' || carta.naipe === '♦' ? 'vermelha' : '');
-    card.textContent = `${carta.valor}${carta.naipe}`;
-    card.onclick = () => descartar(index);
-    div.appendChild(card);
-  });
-
-  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
-  atualizarPilhas();
-}
-
 function somaCartas(cartas) {
   return cartas.reduce((soma, carta) => soma + valorNumerico(carta), 0);
+}
+
+function atualizarTurno() {
+  document.getElementById('turno-indicador').textContent =
+    turno === 'jogador' ? 'Seu turno' : 'Turno do Bot';
 }
 
 function novaRodada() {
   const baralho = gerarBaralho();
   maoJogador = baralho.splice(0, 7);
+  maoBot = baralho.splice(0, 7);
   monte = baralho;
   descarte = [monte.pop()];
   cartaComprada = null;
-  renderCartas();
+  turno = 'jogador';
+  renderizar();
+}
+
+function renderizar() {
+  renderCartas(maoJogador, 'cartas-jogador', true);
+  renderCartas(maoBot, 'cartas-bot', false, true);
+  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
+  document.getElementById('soma-bot').textContent = `Soma: ${somaCartas(maoBot)}`;
+  atualizarPilhas();
+  atualizarTurno();
+}
+
+function renderCartas(mao, divId, clicavel, ocultar = false) {
+  const div = document.getElementById(divId);
+  div.innerHTML = '';
+  mao.forEach((carta, index) => {
+    const el = document.createElement('div');
+    el.className = 'carta ' + (carta.naipe === '♥' || carta.naipe === '♦' ? 'vermelha' : '');
+    el.textContent = ocultar ? '🂠' : `${carta.valor}${carta.naipe}`;
+    if (clicavel) el.onclick = () => descartar(index);
+    div.appendChild(el);
+  });
 }
 
 function atualizarPilhas() {
@@ -57,6 +69,7 @@ function atualizarPilhas() {
 }
 
 function comprarCarta(origem) {
+  if (turno !== 'jogador') return;
   if (cartaComprada) {
     alert("Você já comprou! Precisa descartar.");
     return;
@@ -70,7 +83,7 @@ function comprarCarta(origem) {
 
   if (cartaComprada) {
     maoJogador.push(cartaComprada);
-    renderCartas();
+    renderizar();
   }
 }
 
@@ -79,12 +92,52 @@ function descartar(indice) {
     alert("Você precisa comprar uma carta antes de descartar!");
     return;
   }
+
   const descartada = maoJogador.splice(indice, 1)[0];
   descarte.push(descartada);
   cartaComprada = null;
-  renderCartas();
+  renderizar();
+  checarVitoria(maoJogador, 'Você');
+  turno = 'bot';
+  setTimeout(jogadaBot, 1000);
+}
 
-  if (somaCartas(maoJogador) === 0) {
-    alert("Parabéns! Você zerou a mão!");
+function jogadaBot() {
+  if (turno !== 'bot') return;
+
+  // Comprar
+  let carta;
+  if (Math.random() < 0.5 && descarte.length > 0) {
+    carta = descarte.pop();
+  } else {
+    carta = monte.pop();
+  }
+  maoBot.push(carta);
+
+  // Escolher carta para descartar (a com menor valor absoluto)
+  let idxDescartar = 0;
+  let menorValor = Math.abs(valorNumerico(maoBot[0]));
+  for (let i = 1; i < maoBot.length; i++) {
+    const v = Math.abs(valorNumerico(maoBot[i]));
+    if (v < menorValor) {
+      menorValor = v;
+      idxDescartar = i;
+    }
+  }
+  const descartada = maoBot.splice(idxDescartar, 1)[0];
+  descarte.push(descartada);
+
+  renderizar();
+  checarVitoria(maoBot, 'O bot');
+  turno = 'jogador';
+  atualizarTurno();
+}
+
+function checarVitoria(mao, nome) {
+  if (somaCartas(mao) === 0) {
+    setTimeout(() => {
+      alert(`${nome} venceu zerando a mão!`);
+      novaRodada();
+    }, 300);
   }
 }
