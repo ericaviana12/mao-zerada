@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mão Zerada</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -10,34 +10,32 @@
   <h1>Mão Zerada</h1>
   <p class="slogan">Zerar a mão é arte — e cálculo faz parte!</p>
 
-  <div class="info">
-    <p>Sua mão: <span id="player-sum">0</span></p>
-    <p>Mão do Bot: <span id="bot-sum">?</span></p>
-  </div>
+  <p id="turno-indicador">Seu turno</p>
 
-  <div class="game-area">
-    <div class="hand" id="player-hand"></div>
-
-    <div class="middle-area">
-      <div class="draw-pile" id="draw-pile" title="Comprar uma carta">Comprar</div>
-      <div class="discard-pile" id="discard-pile" title="Última carta descartada"></div>
+  <div id="mesa">
+    <div id="pilhas">
+      <div id="monte" class="pilha" onclick="comprarCarta('monte')">Monte</div>
+      <div id="descarte" class="pilha" onclick="comprarCarta('descarte')">
+        <div id="carta-descarte"></div>
+        <span>Descarte</span>
+      </div>
     </div>
 
-    <div class="bot-area" id="bot-hand"></div>
-  </div>
+    <div id="mao-jogador" class="mao">
+      <h2>Sua Mão</h2>
+      <div id="cartas-jogador" class="cartas"></div>
+      <p id="soma-jogador">Soma: 0</p>
+    </div>
 
-  <div id="message"></div>
-  <div class="actions">
-    <button onclick="startGame()">Nova Rodada</button>
-  </div>
-
-  <div id="victory-modal" class="modal hidden">
-    <div class="modal-content">
-      <h2 id="winner-text"></h2>
-      <button onclick="closeModal()">Fechar</button>
+    <div id="mao-bot" class="mao">
+      <h2>Mão do Bot</h2>
+      <div id="cartas-bot" class="cartas"></div>
+      <p id="soma-bot">Soma: ?</p>
     </div>
   </div>
 
+  <p>Você deve comprar uma carta (do monte ou descarte) e depois descartar uma da mão.</p>
+  <button onclick="novaRodada()">Nova Partida</button>
   <script src="script.js"></script>
 </body>
 </html>
