@@ -1,149 +1,134 @@
-const naipes = ['♥', '♦', '♣', '♠'];
+const naipes = ['♠', '♣', '♥', '♦'];
 const valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-let monte = [], descarte = [], maoJogador = [], maoBot = [];
-let cartaComprada = null;
-let turno = 'jogador';
 
-function gerarBaralho() {
-  let baralho = [];
-  for (let naipe of naipes) {
-    for (let valor of valores) {
-      baralho.push({ naipe, valor });
+let deck = [];
+let jogador = [];
+let bot = [];
+let pilhaDescarte = [];
+let cartaComprada = null;
+
+const playerHand = document.getElementById("player-hand");
+const botHand = document.getElementById("bot-hand");
+const deckDiv = document.getElementById("deck");
+const discardPile = document.getElementById("discard-pile");
+const newGameBtn = document.getElementById("new-game");
+const turnIndicator = document.getElementById("turn-indicator");
+
+function criarDeck() {
+  const cartas = [];
+  for (const naipe of naipes) {
+    for (const valor of valores) {
+      cartas.push({ valor, naipe });
     }
   }
-  return baralho.sort(() => Math.random() - 0.5);
+  return cartas.sort(() => Math.random() - 0.5);
 }
 
 function valorNumerico(carta) {
-  const vermelho = carta.naipe === '♥' || carta.naipe === '♦';
-  let valor = parseInt(carta.valor) || 10;
-  if (carta.valor === 'A') valor = 1;
-  return vermelho ? -valor : valor;
+  let valor = carta.valor;
+  let numero = valor === 'A' ? 1 : ['J', 'Q', 'K'].includes(valor) ? 10 : parseInt(valor);
+  return ['♥', '♦'].includes(carta.naipe) ? -numero : numero;
 }
 
-function somaCartas(cartas) {
-  return cartas.reduce((soma, carta) => soma + valorNumerico(carta), 0);
+function renderizarCarta(carta) {
+  const div = document.createElement("div");
+  div.className = `card ${['♥', '♦'].includes(carta.naipe) ? 'red' : ''}`;
+  div.textContent = `${carta.valor}${carta.naipe}`;
+  return div;
 }
 
-function atualizarTurno() {
-  document.getElementById('turno-indicador').textContent =
-    turno === 'jogador' ? 'Seu turno' : 'Turno do Bot';
-}
-
-function novaRodada() {
-  const baralho = gerarBaralho();
-  maoJogador = baralho.splice(0, 7);
-  maoBot = baralho.splice(0, 7);
-  monte = baralho;
-  descarte = [monte.pop()];
-  cartaComprada = null;
-  turno = 'jogador';
-  renderizar();
-}
-
-function renderizar() {
-  renderCartas(maoJogador, 'cartas-jogador', true);
-  renderCartas(maoBot, 'cartas-bot', false, true);
-  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
-  document.getElementById('soma-bot').textContent = `Soma: ${somaCartas(maoBot)}`;
-  atualizarPilhas();
-  atualizarTurno();
-}
-
-function renderCartas(mao, divId, clicavel, ocultar = false) {
-  const div = document.getElementById(divId);
-  div.innerHTML = '';
-  mao.forEach((carta, index) => {
-    const el = document.createElement('div');
-    el.className = 'carta ' + (carta.naipe === '♥' || carta.naipe === '♦' ? 'vermelha' : '');
-    el.textContent = ocultar ? '🂠' : `${carta.valor}${carta.naipe}`;
-    if (clicavel) el.onclick = () => descartar(index);
-    div.appendChild(el);
+function renderizarMao(jogadorAtual, container, clicavel = false) {
+  container.innerHTML = '';
+  jogadorAtual.forEach((carta, index) => {
+    const divCarta = renderizarCarta(carta);
+    if (clicavel) {
+      divCarta.addEventListener("click", () => descartarCarta(index));
+    }
+    container.appendChild(divCarta);
   });
 }
 
-function atualizarPilhas() {
-  document.getElementById('monte').textContent = monte.length ? 'Monte' : 'Vazio';
-
-  const cartaTopo = descarte[descarte.length - 1];
-  const el = document.getElementById('carta-descarte');
-  el.innerHTML = '';
-  if (cartaTopo) {
-    const cartaEl = document.createElement('div');
-    cartaEl.className = 'carta ' + (cartaTopo.naipe === '♥' || cartaTopo.naipe === '♦' ? 'vermelha' : '');
-    cartaEl.textContent = `${cartaTopo.valor}${cartaTopo.naipe}`;
-    el.appendChild(cartaEl);
+function atualizarPilhaDescarte() {
+  discardPile.innerHTML = '';
+  if (pilhaDescarte.length > 0) {
+    const ultimaCarta = renderizarCarta(pilhaDescarte[pilhaDescarte.length - 1]);
+    discardPile.appendChild(ultimaCarta);
   }
 }
 
-function comprarCarta(origem) {
-  if (turno !== 'jogador') return;
-  if (cartaComprada) {
-    alert("Você já comprou! Precisa descartar.");
-    return;
-  }
-
-  if (origem === 'monte' && monte.length > 0) {
-    cartaComprada = monte.pop();
-  } else if (origem === 'descarte' && descarte.length > 0) {
-    cartaComprada = descarte.pop();
-  }
-
-  if (cartaComprada) {
-    maoJogador.push(cartaComprada);
-    renderizar();
-  }
+function atualizarIndicadorDeTurno(vez) {
+  turnIndicator.textContent = vez === 'player' ? 'Sua vez!' : 'Bot está jogando...';
 }
 
-function descartar(indice) {
-  if (!cartaComprada) {
-    alert("Você precisa comprar uma carta antes de descartar!");
-    return;
-  }
-
-  const descartada = maoJogador.splice(indice, 1)[0];
-  descarte.push(descartada);
+function iniciarJogo() {
+  deck = criarDeck();
+  jogador = deck.splice(0, 7);
+  bot = deck.splice(0, 7);
+  pilhaDescarte = [deck.pop()];
   cartaComprada = null;
-  renderizar();
-  checarVitoria(maoJogador, 'Você');
-  turno = 'bot';
-  setTimeout(jogadaBot, 1000);
+
+  renderizarMao(jogador, playerHand, true);
+  renderizarMao(bot.map(() => ({})), botHand); // Ocultar cartas do bot
+  atualizarPilhaDescarte();
+  atualizarIndicadorDeTurno('player');
+
+  deckDiv.onclick = comprarCarta;
 }
 
-function jogadaBot() {
-  if (turno !== 'bot') return;
+function comprarCarta() {
+  if (cartaComprada || deck.length === 0) return;
+  cartaComprada = deck.pop();
+  jogador.push(cartaComprada);
+  renderizarMao(jogador, playerHand, true);
+  atualizarIndicadorDeTurno('player');
+}
 
-  let carta;
-  if (Math.random() < 0.5 && descarte.length > 0) {
-    carta = descarte.pop();
-  } else {
-    carta = monte.pop();
-  }
-  maoBot.push(carta);
+function descartarCarta(indice) {
+  if (!cartaComprada) return;
+  const descartada = jogador.splice(indice, 1)[0];
+  pilhaDescarte.push(descartada);
+  cartaComprada = null;
 
-  let idxDescartar = 0;
-  let menorValor = Math.abs(valorNumerico(maoBot[0]));
-  for (let i = 1; i < maoBot.length; i++) {
-    const v = Math.abs(valorNumerico(maoBot[i]));
-    if (v < menorValor) {
-      menorValor = v;
-      idxDescartar = i;
+  renderizarMao(jogador, playerHand, true);
+  atualizarPilhaDescarte();
+  verificarVitoria(jogador, 'Você');
+
+  setTimeout(() => turnoBot(), 500);
+}
+
+function turnoBot() {
+  atualizarIndicadorDeTurno('bot');
+  bot.push(deck.pop());
+
+  // Bot descarta a carta que piora a soma
+  let melhorIndice = 0;
+  let menorModulo = Infinity;
+  for (let i = 0; i < bot.length; i++) {
+    const copia = bot.slice();
+    copia.splice(i, 1);
+    const soma = copia.reduce((a, c) => a + valorNumerico(c), 0);
+    if (Math.abs(soma) < menorModulo) {
+      menorModulo = Math.abs(soma);
+      melhorIndice = i;
     }
   }
-  const descartada = maoBot.splice(idxDescartar, 1)[0];
-  descarte.push(descartada);
 
-  renderizar();
-  checarVitoria(maoBot, 'O bot');
-  turno = 'jogador';
-  atualizarTurno();
+  const descartada = bot.splice(melhorIndice, 1)[0];
+  pilhaDescarte.push(descartada);
+  renderizarMao(bot.map(() => ({})), botHand);
+  atualizarPilhaDescarte();
+  verificarVitoria(bot, 'Bot');
+
+  atualizarIndicadorDeTurno('player');
 }
 
-function checarVitoria(mao, nome) {
-  if (somaCartas(mao) === 0) {
-    setTimeout(() => {
-      alert(`${nome} venceu zerando a mão!`);
-      novaRodada();
-    }, 300);
+function verificarVitoria(mao, nome) {
+  const soma = mao.reduce((acc, carta) => acc + valorNumerico(carta), 0);
+  if (soma === 0) {
+    alert(`${nome} venceu!`);
+    deckDiv.onclick = null;
   }
 }
+
+newGameBtn.onclick = iniciarJogo;
+window.onload = iniciarJogo;
