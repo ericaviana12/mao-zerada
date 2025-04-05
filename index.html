@@ -1,39 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mão Zerada</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mão Zerada</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-    <h1>Mão Zerada</h1>
-    <p>Zerar a mão é arte</p>
-    <p id="status">Sua vez!</p>
-
-    <div class="mao-container">
-        <h2>Sua Mão</h2>
-        <div id="mao-jogador" class="mao"></div>
+  <h1>Mão Zerada</h1>
+  <div id="turno-indicador"></div>
+  <div id="mesa">
+    <div id="mao-jogador" class="mao"></div>
+    <div id="controle-jogador">
+      <button onclick="comprarCarta()">Comprar</button>
+      <div id="carta-comprada"></div>
     </div>
-
-    <div class="acoes">
-        <button onclick="comprarCarta()">Comprar</button>
-        <button onclick="descartarCarta()">Descartar</button>
+    <div id="mao-bot" class="mao"></div>
+    <div id="descarte">
+      <h3>Descarte</h3>
+      <div id="pilha-descarte"></div>
     </div>
+  </div>
+  <button onclick="novaRodada()">Nova Rodada</button>
 
-    <div class="mao-container">
-        <h2>Mão do Bot</h2>
-        <div id="mao-bot" class="mao"></div>
+  <div id="modal-vitoria" class="modal">
+    <div class="modal-conteudo">
+      <p id="mensagem-vitoria"></p>
+      <button onclick="fecharModal()">Fechar</button>
     </div>
+  </div>
 
-    <div id="modal-vitoria" class="modal">
-        <div class="modal-content">
-            <h2 id="mensagem-vitoria"></h2>
-            <button onclick="fecharModal()">OK</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
