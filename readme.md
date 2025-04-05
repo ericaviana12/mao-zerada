@@ -22,6 +22,10 @@
 - Seu objetivo: **zerar a soma das suas cartas**.
 - O primeiro a zerar, vence!
 
+## Site do jogo
+Jogue agora mesmo:  
+**[https://ericaviana12.github.io/mao-zerada/](https://ericaviana12.github.io/mao-zerada/)**
+
 ## Modos futuros
 - [x] Solo vs bot
 - [ ] Multiplayer local
