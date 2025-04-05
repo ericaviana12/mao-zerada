@@ -1,132 +1,155 @@
-const suits = ['♠', '♣', '♥', '♦'];
-const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-let deck = [], playerHand = [], botHand = [], discardPile = [], currentPlayer = 'player';
+const naipes = ['♥', '♦', '♣', '♠'];
+const valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+let monte = [], descarte = [], maoJogador = [], maoBot = [];
+let cartaComprada = null;
+let turno = 'jogador';
 
-function createDeck() {
-  deck = [];
-  suits.forEach(suit => {
-    values.forEach(value => {
-      deck.push({ value, suit });
-    });
-  });
-  shuffle(deck);
+function gerarBaralho() {
+  let baralho = [];
+  for (let naipe of naipes) {
+    for (let valor of valores) {
+      baralho.push({ naipe, valor });
+    }
+  }
+  return baralho.sort(() => Math.random() - 0.5);
 }
 
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+function valorNumerico(carta) {
+  const vermelho = carta.naipe === '♥' || carta.naipe === '♦';
+  let valor = parseInt(carta.valor) || 10;
+  if (carta.valor === 'A') valor = 1;
+  return vermelho ? -valor : valor;
+}
+
+function somaCartas(cartas) {
+  return cartas.reduce((soma, carta) => soma + valorNumerico(carta), 0);
+}
+
+function atualizarTurno() {
+  document.getElementById('turno-indicador').textContent =
+    turno === 'jogador' ? 'Seu turno' : 'Turno do Bot';
+}
+
+function novaRodada() {
+  const baralho = gerarBaralho();
+  maoJogador = baralho.splice(0, 7);
+  maoBot = baralho.splice(0, 7);
+  monte = baralho;
+  descarte = [monte.pop()];
+  cartaComprada = null;
+  turno = 'jogador';
+  renderizar();
+}
+
+function renderizar() {
+  renderCartas(maoJogador, 'cartas-jogador', true);
+  renderCartas(maoBot, 'cartas-bot', false, true);
+  document.getElementById('soma-jogador').textContent = `Soma: ${somaCartas(maoJogador)}`;
+  document.getElementById('soma-bot').textContent = `Soma: ${somaCartas(maoBot)}`;
+  atualizarPilhas();
+  atualizarTurno();
+}
+
+function renderCartas(mao, divId, clicavel, ocultar = false) {
+  const div = document.getElementById(divId);
+  div.innerHTML = '';
+  mao.forEach((carta, index) => {
+    const el = document.createElement('div');
+    el.className = 'carta ' + (carta.naipe === '♥' || carta.naipe === '♦' ? 'vermelha' : '');
+    el.textContent = ocultar ? '🂠' : `${carta.valor}${carta.naipe}`;
+    if (clicavel) el.onclick = () => descartar(index);
+    div.appendChild(el);
+  });
+}
+
+function atualizarPilhas() {
+  document.getElementById('monte').textContent = monte.length ? 'Monte' : 'Vazio';
+
+  const cartaTopo = descarte[descarte.length - 1];
+  const el = document.getElementById('carta-descarte');
+  el.innerHTML = '';
+  if (cartaTopo) {
+    const cartaEl = document.createElement('div');
+    cartaEl.className = 'carta ' + (cartaTopo.naipe === '♥' || cartaTopo.naipe === '♦' ? 'vermelha' : '');
+    cartaEl.textContent = `${cartaTopo.valor}${cartaTopo.naipe}`;
+    el.appendChild(cartaEl);
   }
 }
 
-function startGame() {
-  createDeck();
-  playerHand = deck.splice(0, 7);
-  botHand = deck.splice(0, 7);
-  discardPile = [deck.pop()];
-  renderHands();
-  updateSums();
-  renderDiscard();
-  currentPlayer = 'player';
-}
-
-function renderHands() {
-  const player = document.getElementById('player-hand');
-  const bot = document.getElementById('bot-hand');
-  player.innerHTML = '';
-  bot.innerHTML = '';
-
-  playerHand.forEach((card, index) => {
-    const el = createCardElement(card);
-    el.onclick = () => discardCard(index);
-    player.appendChild(el);
-  });
-
-  botHand.forEach(() => {
-    const botCard = document.createElement('div');
-    botCard.className = 'card';
-    botCard.textContent = '?';
-    bot.appendChild(botCard);
-  });
-}
-
-function createCardElement(card) {
-  const el = document.createElement('div');
-  el.className = 'card';
-  el.textContent = card.value + card.suit;
-  el.style.color = (card.suit === '♥' || card.suit === '♦') ? 'red' : 'black';
-  return el;
-}
-
-function updateSums() {
-  document.getElementById('player-sum').textContent = calcSum(playerHand);
-  document.getElementById('bot-sum').textContent = '?';
-}
-
-function cardValue(card) {
-  const face = card.value;
-  let base = (face === 'A') ? 1 : ['J','Q','K'].includes(face) ? 10 : parseInt(face);
-  return (card.suit === '♥' || card.suit === '♦') ? -base : base;
-}
-
-function calcSum(hand) {
-  return hand.reduce((sum, c) => sum + cardValue(c), 0);
-}
-
-function renderDiscard() {
-  const discard = document.getElementById('discard-pile');
-  const top = discardPile[discardPile.length - 1];
-  discard.textContent = top ? top.value + top.suit : '';
-  discard.style.color = top && (top.suit === '♥' || top.suit === '♦') ? 'red' : 'black';
-}
-
-document.getElementById('draw-pile').onclick = () => {
-  if (currentPlayer !== 'player' || deck.length === 0) return;
-  const card = deck.pop();
-  playerHand.push(card);
-  animateDraw();
-  renderHands();
-};
-
-function animateDraw() {
-  const draw = document.getElementById('draw-pile');
-  draw.style.backgroundColor = '#cfc';
-  setTimeout(() => draw.style.backgroundColor = '#eee', 500);
-}
-
-function discardCard(index) {
-  if (playerHand.length <= 7) return;
-  const discarded = playerHand.splice(index, 1)[0];
-  discardPile.push(discarded);
-  renderDiscard();
-  renderHands();
-  updateSums();
-  if (calcSum(playerHand) === 0) return showVictory('Você venceu!');
-  currentPlayer = 'bot';
-  setTimeout(botTurn, 1000);
-}
-
-function botTurn() {
-  const botCard = deck.pop();
-  botHand.push(botCard);
-  if (botHand.length > 7) {
-    let idx = botHand.findIndex(c => cardValue(c) !== 0) || 0;
-    const discarded = botHand.splice(idx, 1)[0];
-    discardPile.push(discarded);
+function comprarCarta(origem) {
+  if (turno !== 'jogador') return;
+  if (cartaComprada) {
+    alert("Você já comprou! Precisa descartar.");
+    return;
   }
-  updateSums();
-  renderDiscard();
-  renderHands();
-  if (calcSum(botHand) === 0) return showVictory('O bot venceu!');
-  currentPlayer = 'player';
+
+  if (origem === 'monte' && monte.length > 0) {
+    cartaComprada = monte.pop();
+  } else if (origem === 'descarte' && descarte.length > 0) {
+    cartaComprada = descarte.pop();
+  }
+
+  if (cartaComprada) {
+    maoJogador.push(cartaComprada);
+    renderizar();
+  }
 }
 
-function showVictory(msg) {
-  document.getElementById('winner-text').textContent = msg;
-  document.getElementById('victory-modal').classList.remove('hidden');
+function descartar(indice) {
+  if (!cartaComprada) {
+    alert("Você precisa comprar uma carta antes de descartar!");
+    return;
+  }
+
+  const descartada = maoJogador.splice(indice, 1)[0];
+  descarte.push(descartada);
+  cartaComprada = null;
+  renderizar();
+  checarVitoria(maoJogador, 'Você');
+  turno = 'bot';
+  setTimeout(jogadaBot, 1000);
 }
 
-function closeModal() {
-  document.getElementById('victory-modal').classList.add('hidden');
-  startGame();
+function jogadaBot() {
+  if (turno !== 'bot') return;
+
+  let carta;
+  if (Math.random() < 0.5 && descarte.length > 0) {
+    carta = descarte.pop();
+  } else {
+    carta = monte.pop();
+  }
+  maoBot.push(carta);
+
+  let idxDescartar = 0;
+  let menorValor = Math.abs(valorNumerico(maoBot[0]));
+  for (let i = 1; i < maoBot.length; i++) {
+    const v = Math.abs(valorNumerico(maoBot[i]));
+    if (v < menorValor) {
+      menorValor = v;
+      idxDescartar = i;
+    }
+  }
+  const descartada = maoBot.splice(idxDescartar, 1)[0];
+  descarte.push(descartada);
+
+  renderizar();
+  checarVitoria(maoBot, 'O bot');
+  turno = 'jogador';
+  atualizarTurno();
 }
+
+function checarVitoria(mao, nome) {
+  if (somaCartas(mao) === 0) {
+    setTimeout(() => {
+      alert(`${nome} venceu zerando a mão!`);
+      novaRodada();
+    }, 300);
+  }
+}
+
+document.getElementById('turno-indicador').innerText = 'Turno do Bot...';
+setTimeout(() => {
+  // bot joga aqui
+  document.getElementById('turno-indicador').innerText = 'Sua vez!';
+}, 1000);
