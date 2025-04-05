@@ -1,76 +1,159 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0a0a0a;
-  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0e0e0e;
+  color: #fff;
   text-align: center;
+  padding: 20px;
+  margin: 0;
 }
 
-#game-container {
+h1 {
+  font-size: 2.5em;
+  margin: 0.2em 0;
+}
+
+.slogan {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+#turno-indicador {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  color: #ffd700;
+}
+
+#mesa {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  height: 100vh;
-  padding-top: 50px;
-  box-sizing: border-box;
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.hand {
+#pilhas {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 40px;
+  margin: 20px 0;
 }
 
-.card, .card-back {
+.pilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 110px;
+  background: #333;
+  border-radius: 8px;
+  border: 2px solid #999;
+  position: relative;
+  cursor: pointer;
+}
+
+#carta-descarte {
   width: 60px;
   height: 90px;
-  border-radius: 6px;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-  border: 2px solid #333;
+  margin-bottom: 5px;
 }
 
-.card.red {
+.mao {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  width: 95%;
+  max-width: 600px;
+}
+
+.cartas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.carta {
+  width: 60px;
+  height: 90px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.carta:hover {
+  transform: scale(1.1);
+}
+
+.vermelha {
   color: red;
 }
 
-.card-back {
-  background: #222;
-  color: white;
-}
-
-#deck-area {
-  display: flex;
-  gap: 12px;
-  margin: 16px 0;
-}
-
 button {
+  margin-top: 20px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1em;
   cursor: pointer;
-  background: #444;
-  color: white;
+  border-radius: 6px;
   border: none;
-  border-radius: 4px;
+  background-color: #444;
+  color: white;
 }
 
-.turn-indicator {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #222;
-  color: #fff;
-  padding: 8px 16px;
-  font-size: 18px;
-  border-radius: 8px;
-  z-index: 9999;
+button:hover {
+  background-color: #666;
+}
+
+/* Responsivo: Modo retrato (mobile) */
+@media (max-width: 768px) and (orientation: portrait) {
+  #mesa {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .mao {
+    width: 100%;
+    font-size: 0.9em;
+  }
+
+  .carta {
+    width: 50px;
+    height: 75px;
+    font-size: 18px;
+  }
+
+  #pilhas {
+    gap: 20px;
+  }
+}
+
+/* Responsivo: Modo paisagem (tablet e desktop) */
+@media (min-width: 769px) and (orientation: landscape), (min-width: 1024px) {
+  #mesa {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .mao {
+    width: 45%;
+  }
+
+  #pilhas {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
 }
